@@ -284,7 +284,7 @@ open class AZDropdownMenu: UIView {
     open func showMenuFromRect(_ rect:CGRect) {
         let window = UIApplication.shared.keyWindow!
 
-        let menuFrame = CGRect(origin: CGPoint(x: 0,y :rect.origin.y), size: CGSize(width: frame.size.width, height: menuHeight))
+        let menuFrame = CGRect(origin: CGPoint(x:rect.origin.x, y:rect.origin.y), size: CGSize(width:rect.size.width, height:menuHeight))
 
         self.menuView.frame = menuFrame
 
