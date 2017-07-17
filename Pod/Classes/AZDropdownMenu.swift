@@ -10,6 +10,9 @@ import UIKit
 
 open class AZDropdownMenu: UIView {
 
+    public var willHideCompletion: ((_ menu:AZDropdownMenu) -> Void)?
+    public var didHideCompletion: ((_ menu:AZDropdownMenu) -> Void)?
+    
     fileprivate let DROPDOWN_MENU_CELL_KEY : String = "MenuItemCell"
 
     /// The dark overlay behind the menu
@@ -310,6 +313,10 @@ open class AZDropdownMenu: UIView {
 
         animateOvelay(0.0, interval: 0.1, completionHandler: nil)
 
+        if let completion = willHideCompletion {
+            completion(self)
+        }
+        
         UIView.animate(
             withDuration: 0.3, delay: 0.1,
             options: [],
@@ -319,6 +326,9 @@ open class AZDropdownMenu: UIView {
             completion: { (finished: Bool) -> Void in
                 self.menuView.center = self.initialMenuCenter
                 self.removeFromSuperview()
+                if let completion = self.didHideCompletion {
+                    completion(self)
+                }
             }
         )
     }

@@ -168,7 +168,14 @@ extension UIViewController {
         menu.cellTapHandler = { [weak self] (indexPath: IndexPath) -> Void in
             self?.pushNewViewController(leftTitles[indexPath.row])
         }
+        
+        menu.willHideCompletion = { (menu:AZDropdownMenu) -> Void in
+            print("willHideCompletion, yo")
+        }
 
+        menu.didHideCompletion = {(menu:AZDropdownMenu) -> Void in
+            print("didHideCompletion, yo")
+        }
         return menu
     }
 
