@@ -11,23 +11,41 @@ import Foundation
 open class AZDropdownMenuBaseCell : UITableViewCell, AZDropdownMenuCellProtocol {
     
     open func configureData(_ data: AZDropdownMenuItemData) {
-        self.textLabel?.text = data.title
+
+        var content:UIListContentConfiguration
+        if let c = self.contentConfiguration as? UIListContentConfiguration {
+            content = c
+        } else {
+            content = self.defaultContentConfiguration()
+        }
+        content.text = data.title
+        self.contentConfiguration = content
     }
 
     func configureStyle(_ config: AZDropdownMenuConfig) {
+
         self.selectionStyle = .none
         self.backgroundColor = config.itemColor
-        self.textLabel?.textColor = config.itemFontColor
-        self.textLabel?.font = UIFont(name: config.itemFont, size: config.itemFontSize)
 
-        switch config.itemAlignment {
-        case .left:
-            self.textLabel?.textAlignment = .left
-        case .right:
-            self.textLabel?.textAlignment = .right
-        case .center:
-            self.textLabel?.textAlignment = .center
+        var content:UIListContentConfiguration
+        if let c = self.contentConfiguration as? UIListContentConfiguration {
+            content = c
+        } else {
+            content = self.defaultContentConfiguration()
         }
+
+        content.textProperties.color = config.itemFontColor
+        content.textProperties.font = UIFont(name: config.itemFont, size: config.itemFontSize) ?? UIFont.systemFont(ofSize: 10)
+        self.contentConfiguration = content
+
+//        switch config.itemAlignment {
+//        case .left:
+//            self.textLabel?.textAlignment = .left
+//        case .right:
+//            self.textLabel?.textAlignment = .right
+//        case .center:
+//            self.textLabel?.textAlignment = .center
+//        }
     }
 }
 
