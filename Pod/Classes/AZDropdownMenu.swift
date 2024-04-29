@@ -150,6 +150,8 @@ open class AZDropdownMenu: UIView {
     fileprivate var reuseId : String?
     fileprivate var menuConfig : AZDropdownMenuConfig?
 
+    var didHideCompletion: ((_ menu:AZDropdownMenu) -> Void)?
+
     // MARK: - Initializer
     public init(titles:[String]) {
         self.isSetUpFinished = false
@@ -282,13 +284,13 @@ open class AZDropdownMenu: UIView {
     }
 
     open func showMenuFromRect(_ rect:CGRect) {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
 
         let menuFrame = CGRect(origin: CGPoint(x: 0,y :rect.origin.y), size: CGSize(width: frame.size.width, height: menuHeight))
 
         self.menuView.frame = menuFrame
 
-        window.addSubview(self)
+        window!.addSubview(self)
 
         animateOvelay(overlayAlpha, interval: 0.4, completionHandler: nil)
         menuView.reloadData()
@@ -319,6 +321,9 @@ open class AZDropdownMenu: UIView {
             completion: { (finished: Bool) -> Void in
                 self.menuView.center = self.initialMenuCenter
                 self.removeFromSuperview()
+                if let comletion = self.didHideCompletion {
+                    comletion(self)
+                }
             }
         )
     }
