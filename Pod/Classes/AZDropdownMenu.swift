@@ -150,7 +150,7 @@ open class AZDropdownMenu: UIView {
     fileprivate var reuseId : String?
     fileprivate var menuConfig : AZDropdownMenuConfig?
 
-    var didHideCompletion: ((_ menu:AZDropdownMenu) -> Void)?
+    open var didHideCompletion: ((_ menu:AZDropdownMenu) -> Void)?
 
     // MARK: - Initializer
     public init(titles:[String]) {
